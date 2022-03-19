@@ -35,4 +35,4 @@ $(APP): libMediaPackager.a
 	#CGO_LDFLAGS='-L./ -L/usr/lib/x86_64-linux-gnu -lMediaPackager' go build packager_proxy.go
 
 clean:
-	-@rm packager_proxy ezMediaPackager libMediaPackager.a *.o 2> /dev/null || true
+	-@rm packager_proxy dynaMediaPackager libMediaPackager.a *.o 2> /dev/null || true
