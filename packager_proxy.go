@@ -10,8 +10,8 @@ package main
 #include "libMediaPackager.h"
 
 packagerResult_t packageMediaSegment(char *fileName,
-                                        char *pInputBufferData,
-			                            size_t inputBufferSize)
+                                     char *pInputBufferData,
+			             size_t inputBufferSize)
 {
     packagingParams_t params;
     params.isProtected = false;
@@ -92,7 +92,7 @@ func packager_handler(w http.ResponseWriter, r *http.Request) {
     fmt.Println("requestedFileName: ", requestedFileName)
 
     objUrl_new := ""
-    // Clients request ts segments, origin server only has fmp4 segments as mezzanine data.
+    // Clients request ts segments, remote server only has fmp4 segments as mezzanine data.
     // The proxy needs to download fmp4 segments from the origin,
     // repackages into ts segments, and sens back to clients.
     if requestedFileExtension == ".ts" {
@@ -109,18 +109,18 @@ func packager_handler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    originObjUrl := "http://localhost:80/media/" + objUrl_new
-    fmt.Println(originObjUrl)
+    remoteObjUrl := "http://localhost:80/media/" + objUrl_new
+    fmt.Println(remoteObjUrl)
 
-    // Download fmp4 media segments from the origin server.
-    resp, err := http.Get(originObjUrl) 
+    // Download fmp4 media segments from the remote server.
+    resp, err := http.Get(remoteObjUrl) 
     if err != nil {
         panic(err)
     }
 
     defer resp.Body.Close()
     if resp.StatusCode != http.StatusOK {
-        fmt.Println("Error: Failed to download objects from origin: ", originObjUrl, ", response code: ", resp.StatusCode)
+        fmt.Println("Error: Failed to download objects from remote: ", remoteObjUrl, ", response code: ", resp.StatusCode)
 	http.Error(w, "Internal Server Errors.", 500)
         return
     }
@@ -135,7 +135,7 @@ func packager_handler(w http.ResponseWriter, r *http.Request) {
 
     var responseDataBuffer []byte // All the media segment responses are sent from memory buffer directly.
 
-    // The streaming client requested ts segments
+    // The streaming client is requesting ts segments
     if requestedFileExtension == ".ts" {
 	    responseBodyString := string(bodyBytes)
 
@@ -157,7 +157,7 @@ func packager_handler(w http.ResponseWriter, r *http.Request) {
             concatenatedSegment = append(concatenatedSegment, responseBodyString...)
         }
 
-        // Now, call ezMediaPackager API to convert from fmp4 to ts.
+        // Now, call dynaMediaPackager API to convert from fmp4 to ts.
         concatenatedSegmentCString := C.CString(string(concatenatedSegment))
         concatenatedSegmentStringLength := C.ulong(len(string(concatenatedSegment)))
 
