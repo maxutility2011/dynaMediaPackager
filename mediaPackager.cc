@@ -24,17 +24,17 @@ using namespace std;
 
 #define DEFAULT_PATTERN_ENCRYPTION_CLEAR_BLOCKS_VIDEO 9 
 
-ezMediaPackager::ezMediaPackager(int loglevel) : m_logLevel(loglevel), // TODO: logLevel is hardcoded
+dynaMediaPackager::dynaMediaPackager(int loglevel) : m_logLevel(loglevel), // TODO: logLevel is hardcoded
                                                     m_mediaDataBuffer(0),
                                                     m_mediaDataBufferSize(0)
 {}
 
-ezMediaPackager::~ezMediaPackager()
+dynaMediaPackager::~dynaMediaPackager()
 {}
 
-int64_t ezMediaPackager::shakaCallback(const string& name, 
-		                                const void* dataBuffer, 
-				                        uint64_t dataBufferSize)
+int64_t dynaMediaPackager::shakaCallback(const string& name, 
+ 	                                 const void* dataBuffer, 
+				         uint64_t dataBufferSize)
 {
     if (m_mediaDataBuffer)
     {
@@ -52,9 +52,9 @@ int64_t ezMediaPackager::shakaCallback(const string& name,
     return dataBufferSize;
 }
 
-packager_status_t ezMediaPackager::initialize(string inputStreamUrl, 
+packager_status_t dynaMediaPackager::initialize(string inputStreamUrl, 
                                                 media_file_format_t oFormat,
-					                            packagingParams_t params)
+					        packagingParams_t params)
 {
     int argc = 2; // Mock argc for packager logging purpose ONLY, NOT used in the media pipeline.
     char *argv[argc];
@@ -88,7 +88,7 @@ packager_status_t ezMediaPackager::initialize(string inputStreamUrl,
     stream_descriptor.input = inputStreamUrl;
     stream_descriptor.stream_selector = params.stream_descriptor.stream_selector; 
 
-    std::function<int64_t(const string&, const void*, uint64_t)> cbf = std::bind(&ezMediaPackager::shakaCallback, this, _1, _2, _3);
+    std::function<int64_t(const string&, const void*, uint64_t)> cbf = std::bind(&dynaMediaPackager::shakaCallback, this, _1, _2, _3);
 
     packaging_params.buffer_callback_params.write_func = cbf; 
     string mockFile;
@@ -121,16 +121,16 @@ packager_status_t ezMediaPackager::initialize(string inputStreamUrl,
     {
     	EncryptionParams& encryption_params = packaging_params.encryption_params;
     	switch (params.drm_params.keyProvider) {
-            case ezNoKey:
+            case dynaNoKey:
                 encryption_params.key_provider = KeyProvider::kNone;
             	break;
-       	    case ezRawKey:
+       	    case dynaRawKey:
                 encryption_params.key_provider = KeyProvider::kRawKey;
                 break;
-            case ezWidevine:
+            case dynaWidevine:
                 encryption_params.key_provider = KeyProvider::kWidevine;
                 break;
-            case ezPlayReady:
+            case dynaPlayReady:
                 encryption_params.key_provider = KeyProvider::kPlayReady;
                 break;
             default:
@@ -138,16 +138,16 @@ packager_status_t ezMediaPackager::initialize(string inputStreamUrl,
         }
     
         switch (params.drm_params.protection_scheme) {
-            case ez_CENC:
+            case dyna_CENC:
                 encryption_params.protection_scheme = EncryptionParams::kProtectionSchemeCenc;
                 break;
-            case ez_CENS:
+            case dyna_CENS:
                 encryption_params.protection_scheme = EncryptionParams::kProtectionSchemeCbc1;
                 break;
-            case ez_CBC1:
+            case dyna_CBC1:
                 encryption_params.protection_scheme = EncryptionParams::kProtectionSchemeCens;
                 break;
-            case ez_CBCS:
+            case dyna_CBCS:
                 encryption_params.protection_scheme = EncryptionParams::kProtectionSchemeCbcs;
                 break;
             default:
@@ -197,7 +197,7 @@ packager_status_t ezMediaPackager::initialize(string inputStreamUrl,
     return no_error;
 }
 
-packager_status_t ezMediaPackager::process()
+packager_status_t dynaMediaPackager::process()
 {
     Status status = m_shaka.Run();
     if (!status.ok()) 
@@ -210,13 +210,13 @@ packager_status_t ezMediaPackager::process()
 }
 
 int doProcessMediaBuffer(char *memoryFileUrl,
-                            char *outputFormat,
-			                packagingParams_t params,
-                            uint8_t **ppBufferData,
-                            size_t *pBufferSize)
+                         char *outputFormat,
+			 packagingParams_t params,
+                         uint8_t **ppBufferData,
+                         size_t *pBufferSize)
 {
     packager_status_t status = no_error;
-    ezMediaPackager packager(0);
+    dynaMediaPackager packager(0);
 
     media_file_format_t oFormat;
     if (!string(outputFormat).compare(".ts"))

@@ -29,12 +29,12 @@ typedef enum
     packager_process_error
 } packager_status_t;
 
-class ezMediaPackager
+class dynaMediaPackager
 {
     public:
-        ezMediaPackager(int logLevel);
+        dynaMediaPackager(int logLevel);
 
-        virtual ~ezMediaPackager();
+        virtual ~dynaMediaPackager();
 
 	    // We use memoryFile (packager/file/memory_file.h) to pass media data buffer to shaka packager engine.
 	    virtual packager_status_t initialize(string inUrl, media_file_format_t outFormat, packagingParams_t params);

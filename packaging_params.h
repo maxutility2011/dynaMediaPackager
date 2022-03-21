@@ -5,18 +5,18 @@
 
 typedef enum drmKeyProvider
 {
-    ezNoKey,
-    ezRawKey,
-    ezWidevine,
-    ezPlayReady
+    dynaNoKey,
+    dynaRawKey,
+    dynaWidevine,
+    dynaPlayReady
 } drmKeyProvider_t;
 
 typedef enum drmProtectionScheme
 {
-    ez_CENC,
-    ez_CENS,
-    ez_CBC1,
-    ez_CBCS
+    dyna_CENC,
+    dyna_CENS,
+    dyna_CBC1,
+    dyna_CBCS
 } drmProtectionScheme_t;
 
 typedef struct drmParams

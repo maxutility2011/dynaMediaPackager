@@ -1,14 +1,6 @@
 # dynaMediaPackager
 This repo provides a C/C++ library called dynaMediaPackager for transmuxing and encrypting media data. The library provides one single function which accepts a raw memory buffer that stores for example mp4 or ts media data, run all the media processing jobs, then returns the processed media data back to the caller function. 
 
-int processMediaData(char *inputFileName, 
-                     char *pBufferData, // Input media buffer
-                     size_t bufferSize, // Input media buffer size
-                     char *outputFormat, // Output media container format
-                     packagingParams_t params, // Shaka packager configuration
-                     uint8_t **outputBufferData, // returning a pointer to the processed media buffer
-                     size_t *outputBufferSize); // returning the size of the processed media buffer
-
 The library is developed on top of the Shaka packager API. However, unlike running Shaka packager directly on a media file which requires reading the input file and then followed by writing the output to another file, client applications of dynaMediaPackager can pass in input media data as memory buffer, and after the media processing are done, the applications receive processed media data also from memory buffer. This API design provides two performance benefits, 
 
     - Eliminate the need to read input and write output when using Shaka packager directly on file inputs, hence reduce I/O overhead and improve media packaging throughput.

@@ -65,8 +65,8 @@ int main(int argc, char** argv)
 
     strcpy(params.stream_descriptor.stream_selector, "video");
 
-    params.drm_params.keyProvider = ezRawKey;
-    params.drm_params.protection_scheme = ez_CBCS;
+    params.drm_params.keyProvider = dynaRawKey;
+    params.drm_params.protection_scheme = dyna_CBCS;
 
     strcpy(params.drm_params.pssh, "000000317073736800000000EDEF8BA979D64ACEA3C827DCD51D21ED00000011220F7465737420636F6E74656E74206964");
     strcpy(params.drm_params.iv, "73fbe3277bdf0bfc5217125bde4ca589");
@@ -74,12 +74,12 @@ int main(int argc, char** argv)
     strcpy(params.drm_params.key, "69eaa802a6763af979e8d1940fb88392");
 
     processMediaData(argv[1],
-		                pInputFileBuffer,
-		                inputFileSize,
-		                oFormat,
-		                params,
-		                &outputBufferData,
-		                &outputBufferSize);
+		     pInputFileBuffer,
+		     inputFileSize,
+		     oFormat,
+		     params,
+		     &outputBufferData,
+		     &outputBufferSize);
 
     FILE *output = fopen(argv[2], "w");
     if (output == NULL)
