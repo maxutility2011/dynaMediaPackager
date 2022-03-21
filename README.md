@@ -24,6 +24,3 @@ To build dynaMediaPackager, first check out Shaka packager source from https://g
 Run "dynaMediaPackager [input] [output]" to perform media segment repackaging and encryption, run "./dynaMediaPackager [input] [output] no_protection" to perform media segment repackaging only. 
 
 Run "packager_proxy" to start the dynamic packager proxy. The proxy listens on port 8080. A docker container tar file is provided with all the setup for testing packager_proxy. 
-
-Known issues and limitations
-    - The current version of this library is only intended for repackaging media segments, not repackaging/segmenting large video files into HLS/DASH streams. For instance, when integrated into an OTT streaming server, dynaMediaPackager reads the mezzanine (intermediate) media segments, and dynamically repackages into container (e.g. ts, fmp4) and encryption (e.g. cenc, cens, cbcs, cbc1) formats that are requested by streaming players. Please refer to the sample packager_proxy application for details.  
