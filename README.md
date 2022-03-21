@@ -19,11 +19,11 @@ Structure of this repo:
 
 How to build:
 
-    To build dynaMediaPackager, first check out Shaka packager source from https://github.com/google/shaka-packager, put it in the same directory as this repo. Follow https://github.com/shaka-project/shaka-packager/blob/main/docs/source/build_instructions.md to build Shaka packager on Ubuntu. Build Shaka packager for release, "ninja -C out/Release". Depending on its release version, Shaka packager may have slightly different dependencies. You may need to resolve the dependencies on your own. For example, I had to manually install libcares. Then, cd to dynaMediaSegmentPackager/, run "make" to build the C++ sample packager, and the Go dynamic packager. 
+To build dynaMediaPackager, first check out Shaka packager source from https://github.com/google/shaka-packager, put it in the same directory as this repo. Follow https://github.com/shaka-project/shaka-packager/blob/main/docs/source/build_instructions.md to build Shaka packager on Ubuntu. Build Shaka packager for release, "ninja -C out/Release". Depending on its release version, Shaka packager may have slightly different dependencies. You may need to resolve the dependencies on your own. For example, I had to manually install libcares. Then, cd to dynaMediaSegmentPackager/, run "make" to build the C++ sample packager, and the Go dynamic packager. 
 
-    Run "dynaMediaPackager [input] [output]" to perform media segment repackaging and encryption, run "./dynaMediaPackager [input] [output] no_protection" to perform media segment repackaging only. 
+Run "dynaMediaPackager [input] [output]" to perform media segment repackaging and encryption, run "./dynaMediaPackager [input] [output] no_protection" to perform media segment repackaging only. 
 
-    Run "packager_proxy" to start the dynamic packager proxy. The proxy listens on port 8080. A docker container tar file is provided with all the setup for testing packager_proxy. 
+Run "packager_proxy" to start the dynamic packager proxy. The proxy listens on port 8080. A docker container tar file is provided with all the setup for testing packager_proxy. 
 
-    Known issues and limitations
-        - The current version of this library is only intended for repackaging media segments, not repackaging/segmenting large video files into HLS/DASH streams. For instance, when integrated into an OTT streaming server, dynaMediaPackager reads the mezzanine (intermediate) media segments, and dynamically repackages into container (e.g. ts, fmp4) and encryption (e.g. cenc, cens, cbcs, cbc1) formats that are requested by streaming players. Please refer to the sample packager_proxy application for details.  
+Known issues and limitations
+    - The current version of this library is only intended for repackaging media segments, not repackaging/segmenting large video files into HLS/DASH streams. For instance, when integrated into an OTT streaming server, dynaMediaPackager reads the mezzanine (intermediate) media segments, and dynamically repackages into container (e.g. ts, fmp4) and encryption (e.g. cenc, cens, cbcs, cbc1) formats that are requested by streaming players. Please refer to the sample packager_proxy application for details.  
